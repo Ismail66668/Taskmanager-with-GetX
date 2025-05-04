@@ -3,14 +3,15 @@ import 'package:mytaskmanager/data/services/network_client.dart';
 import 'package:mytaskmanager/data/utils/urls/urls.dart';
 
 class RegsteerController extends GetxController {
-  final bool _registaioInProgress = true;
+  bool _registaioInProgress = true;
   String? _errorMassage;
+
   String? get errorMassage => _errorMassage;
   bool get registaioInProgress => _registaioInProgress;
 
   Future<bool> regstarUser(
       String email, fastName, lastName, mobile, password) async {
-    _registaioInProgress == true;
+    _registaioInProgress = true;
     bool isSuccess = false;
     update();
     Map<String, dynamic> requestBody = {
@@ -22,13 +23,14 @@ class RegsteerController extends GetxController {
     };
     NetworkRespons respons = await NetworkClient.postRequest(
         url: Urls.registerUrl, body: requestBody);
-    _registaioInProgress == false;
+    isSuccess = true;
     _errorMassage = null;
     update();
     if (respons.isSuccess) {
     } else {
       _errorMassage = respons.errorMassage;
     }
+    _registaioInProgress = false;
     update();
     return isSuccess;
   }
